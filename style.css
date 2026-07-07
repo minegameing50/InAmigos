@@ -321,7 +321,6 @@ button { cursor: pointer; font-family: var(--font-body); }
     width: auto;
     object-fit: contain;
     transition: var(--transition);
-    filter: brightness(1.1);
 }
 .site-header.scrolled .logo-img { filter: none; }
 
@@ -377,6 +376,8 @@ button { cursor: pointer; font-family: var(--font-body); }
 .nav-link:hover::after, .nav-link.active::after { width: 100%; }
 .nav-cta { padding: 0.55rem 1.4rem !important; font-size: 0.85rem !important; }
 
+.mobile-only-donate { display: none; }
+
 /* Mobile Toggle */
 .mobile-toggle {
     display: none;
@@ -412,9 +413,10 @@ button { cursor: pointer; font-family: var(--font-body); }
     backdrop-filter: blur(3px);
     z-index: 998;
     opacity: 0;
+    pointer-events: none;
     transition: opacity 0.3s;
 }
-.mobile-overlay.active { opacity: 1; }
+.mobile-overlay.active { opacity: 1; pointer-events: auto; }
 
 /* ==========================================================================
    Glassmorphism Card
@@ -480,6 +482,10 @@ button { cursor: pointer; font-family: var(--font-body); }
     transition: opacity 1.2s ease-in-out;
 }
 .hero-slide.active { opacity: 1; }
+
+.impact-bg-overlay {
+    display: none;
+}
 
 .hero-bg-overlay {
     position: absolute;
@@ -689,6 +695,7 @@ button { cursor: pointer; font-family: var(--font-body); }
     width: 100%;
     height: 100%;
     object-fit: cover;
+    object-position: top center;
     transition: var(--transition-slow);
 }
 .team-card:hover .team-img-container img { transform: scale(1.08); }
@@ -742,23 +749,13 @@ button { cursor: pointer; font-family: var(--font-body); }
    ========================================================================== */
 .projects-grid {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(6, 1fr);
     gap: 1.75rem;
 }
 
-/* Center the 4th and 5th project cards */
-.projects-grid .project-card:nth-child(4) { grid-column: 2; }
-
-@media (min-width: 992px) {
-    .projects-grid {
-        grid-template-columns: repeat(6, 1fr);
-    }
-    .project-card:nth-child(1),
-    .project-card:nth-child(2),
-    .project-card:nth-child(3) { grid-column: span 2; }
-    .project-card:nth-child(4) { grid-column: 2 / span 2; }
-    .project-card:nth-child(5) { grid-column: 4 / span 2; }
-}
+.projects-grid .project-card { grid-column: span 2; }
+.projects-grid .project-card:nth-child(4) { grid-column: 2 / span 2; }
+.projects-grid .project-card:nth-child(5) { grid-column: 4 / span 2; }
 
 .project-card {
     background: var(--white);
@@ -843,8 +840,7 @@ button { cursor: pointer; font-family: var(--font-body); }
 .impact-counter-card {
     text-align: center;
     padding: clamp(1.5rem, 3vw, 2.5rem) 1.5rem;
-    border-right: 1px solid rgba(255,255,255,0.1);
-    border-bottom: 1px solid rgba(255,255,255,0.1);
+    border: none;
     transition: var(--transition);
 }
 .impact-counter-card:nth-child(3n) { border-right: none; }
@@ -855,6 +851,22 @@ button { cursor: pointer; font-family: var(--font-body); }
 .counter-number-wrapper { display: flex; justify-content: center; align-items: baseline; margin-bottom: 0.5rem; }
 .counter { font-family: var(--font-heading); font-size: clamp(1.8rem, 3.5vw, 2.5rem); font-weight: 800; color: var(--white); }
 .counter-plus { font-family: var(--font-heading); font-size: clamp(1.2rem, 2vw, 1.6rem); font-weight: 700; color: var(--accent); margin-left: 2px; }
+
+/* Aggressively remove any visual lines/patterns next to counters */
+.counter-number-wrapper,
+.counter-number-wrapper * {
+    border: none !important;
+    box-shadow: none !important;
+    text-decoration: none !important;
+}
+.counter-number-wrapper::after,
+.counter-number-wrapper::before,
+.counter-number-wrapper *::after,
+.counter-number-wrapper *::before {
+    display: none !important;
+    content: none !important;
+}
+
 .counter-label { font-size: 0.8rem; font-weight: 600; color: rgba(255,255,255,0.7); text-transform: uppercase; letter-spacing: 1px; }
 
 .covid-relief-box {
@@ -1021,7 +1033,7 @@ button { cursor: pointer; font-family: var(--font-body); }
 }
 
 .footer-brand { display: flex; flex-direction: column; gap: 1.25rem; }
-.footer-logo { height: 52px; width: auto; object-fit: contain; filter: brightness(0) invert(1) opacity(0.85); }
+.footer-logo { height: 52px; width: auto; object-fit: contain; background: var(--white); padding: 4px 8px; border-radius: 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.3); }
 .brand-info { display: flex; flex-direction: column; gap: 0.6rem; }
 .brand-title { font-family: var(--font-heading); font-size: 1.3rem; font-weight: 800; color: var(--white); }
 .brand-desc { font-size: 0.88rem; line-height: 1.7; }
@@ -1290,7 +1302,9 @@ button { cursor: pointer; font-family: var(--font-body); }
     .why-us-grid { grid-template-columns: 1fr 1fr; }
     
     .projects-grid { grid-template-columns: 1fr 1fr; }
-    .project-card:nth-child(4) { grid-column: auto; }
+    .projects-grid .project-card { grid-column: span 1; }
+    .projects-grid .project-card:nth-child(4) { grid-column: span 1; }
+    .projects-grid .project-card:nth-child(5) { grid-column: span 1; }
 
     .impact-grid { grid-template-columns: repeat(3, 1fr); }
 
@@ -1310,6 +1324,7 @@ button { cursor: pointer; font-family: var(--font-body); }
     :root { --section-pad: 3.5rem; }
 
     /* Navbar */
+    .mobile-only-donate { display: inline-flex; padding: 0.4rem 0.9rem; font-size: 0.85rem; margin-right: 1rem; }
     .mobile-toggle { display: flex; }
     .nav-menu {
         position: fixed;
@@ -1345,7 +1360,8 @@ button { cursor: pointer; font-family: var(--font-body); }
 
     /* Projects */
     .projects-grid { grid-template-columns: 1fr; }
-    .project-card:nth-child(4), .project-card:nth-child(5) { grid-column: auto; }
+    .projects-grid .project-card { grid-column: span 1; }
+    .projects-grid .project-card:nth-child(4), .projects-grid .project-card:nth-child(5) { grid-column: span 1; }
 
     /* Impact */
     .impact-grid { grid-template-columns: repeat(2, 1fr); }
@@ -1384,9 +1400,8 @@ button { cursor: pointer; font-family: var(--font-body); }
     .hero-ctas { flex-direction: column; width: 100%; }
     .hero-ctas .btn { width: 100%; justify-content: center; }
 
-    .impact-grid { grid-template-columns: repeat(2, 1fr); }
-    .impact-counter-card:nth-child(3n) { border-right: 1px solid rgba(255,255,255,0.1); }
-    .impact-counter-card:nth-child(2n) { border-right: none; }
+    .impact-grid { grid-template-columns: 1fr; }
+    .impact-counter-card { padding: 1.5rem; }
 
     .gallery-grid { grid-template-columns: 1fr; }
     .team-grid { grid-template-columns: 1fr; }
