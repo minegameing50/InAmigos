@@ -41,10 +41,8 @@ InAmigos Foundation is an NGO dedicated to social impact and community engagemen
 ```
 InAmigos/
 ├── index.html          # Main landing page
-├── css/
-│   └── styles.css      # Global styles and responsive design
-├── js/
-│   └── script.js       # Interactive functionality
+├── styles.css          # Global styles and responsive design
+├── script.js           # Interactive functionality
 └── assets/             # Images, logos, and media files
 ```
 
