@@ -1,3 +1,7 @@
+<div align="center"">
+<img src="assets/images/favicon.jpg" alt="Logo" width="200px" height="200px">
+</div>
+
 # InAmigos Foundation - Business Website
 
 A professional, responsive business website for InAmigos Foundation built with HTML, CSS, and JavaScript.
